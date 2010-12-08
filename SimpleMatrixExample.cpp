@@ -52,5 +52,18 @@ extern "C" void simpleMatrixExample() {
   Matrix<double> master = m_2 * translate_1y * translate_1x * rotate90 * translate_1y * translate_1y * translate_1y * translate_1x;
   cout << master.to_string() << endl;
   v21 = master * v00;
-  cout << v21.to_string() << endl; // should be [2; 1; 1]
+  cout << v21.to_string() << endl << endl; // should be [2; 1; 1]
+  
+  // We can solve the the series of equations and get back to the original.
+  v00 = v21 / master;
+  cout << v00.to_string() << endl; // should be [0; 0; 1]
+  
+  // We can also invert the matrix so that we can apply it to many points.
+  Matrix<double> master_ = master.inversion();
+  v00 = master_ * v21;  // should be [0; 0; 1]
+  cout << v00.to_string() << endl << endl; // should be [0; 0; 1]
+
+  // The inverse is actually a new transformation. What happens if we apply that one repeatedly?
+  Matrix<double> v00_ = master_ * v00;
+  cout << v00_.to_string() << endl << endl; // should be ???
 }
